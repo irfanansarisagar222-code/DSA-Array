@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& A) {
+        int n = A.size();
+        
+        // Edge Case: If the array has 0 or 1 element, no permutation is possible
+        if (n <= 1) return;
+
+        int pivot = -1;
+        
+        // Step 1: Find the dip (pivot) from the right side
+        // Start from n - 2 so that A[i + 1] is always a valid index (max index n - 1)
+        for (int i = n - 2; i >= 0; i--) {
+            if (A[i] < A[i + 1]) {
+                pivot = i;
+                break;
+            }
+        }
+
+        // Step 2: If no pivot is found, the array is sorted in descending order.
+        // Just reverse it to get the smallest possible permutation.
+        if (pivot == -1) {
+            reverse(A.begin(), A.end());
+            return;
+        }
+
+        // Step 3: Find the next larger element than A[pivot] from the right
+        for (int i = n - 1; i > pivot; i--) {
+            if (A[i] > A[pivot]) {
+                swap(A[i], A[pivot]);
+                break;
+            }
+        }
+
+        // Step 4: Reverse the elements to the right of the pivot
+        int i = pivot + 1, j = n - 1;
+        while (i <= j) {
+            swap(A[i++], A[j--]);
+        }
+    }
+};
