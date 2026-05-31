@@ -1,0 +1,22 @@
+std::vector<int> lastSeen(256, -1);
+        
+        int maxLength = 0;
+        int left = 0; // Left boundary of the sliding window
+        
+        for (int right = 0; right < s.length(); right++) {//O(n) Time Complexity
+            char current_char = s[right];
+            
+            // If the character was seen before and is inside the current window
+            if (lastSeen[current_char] >= left) {
+                // Shrink window by moving left past the previous occurrence
+                left = lastSeen[current_char] + 1;
+            }
+            
+            // Update the last seen position of the character
+            lastSeen[current_char] = right;
+            
+            // Calculate the current window size and update maxLength
+            maxLength = std::max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
